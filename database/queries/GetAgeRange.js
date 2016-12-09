@@ -21,5 +21,5 @@ module.exports = () => {
 	return Promise.all([minQuery, maxQuery])
 	.then((result) => {
 		return { min: result[0], max: result[1] };
-	})
+	});
 };
