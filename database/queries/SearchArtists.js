@@ -11,8 +11,17 @@ const Artist = require('../models/artist');
  */
 module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
 	//Write a query that will follow sort, offset, limit options only
+	console.log(criteria.name.length);
+	const nameQ = criteria.name.length === 0 ? "": criteria.name;
+	const maxAge = criteria.age ? criteria.age.max : 200;
+	const minAge = criteria.age ? criteria.age.min : 0;
+	const maxYearsActive = criteria.yearsActive ? criteria.yearsActive.max : 100;
+	const minYearsActive = criteria.yearsActive ? criteria.yearsActive.min : 0;
+
 	const query = Artist
-		.find({})
+		.find({ name: nameQ,
+						age: { $lte: maxAge , $gte: minAge },
+						yearsActive: { $lte: maxYearsActive, $gte: minYearsActive} })
 		.sort({[sortProperty]: 1})
 		.skip(offset)
 		.limit(limit);
